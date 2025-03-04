@@ -51,7 +51,7 @@ while ret:
     cv2.imshow("Live Basket Detection", frame)
 
     # Press q to quit the application
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.pollKey() & 0xFF == ord('q'):
         break
 
     # Read next frame
