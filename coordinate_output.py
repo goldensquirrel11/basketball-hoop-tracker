@@ -3,16 +3,8 @@ import os
 from ultralytics import YOLO
 import cv2
 
-
-VIDEOS_DIR = os.path.join('.', 'videos')
-
-video_path = os.path.join(VIDEOS_DIR, 'basket2.mp4')
-video_path_out = '{}_10000epochs_out.mp4'.format(video_path)
-
-cap = cv2.VideoCapture(video_path)
-ret, frame = cap.read()
-H, W, _ = frame.shape
-out = cv2.VideoWriter(video_path_out, cv2.VideoWriter_fourcc(*'MP4V'), int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
+videoCapture = cv2.VideoCapture(0)
+ret, frame = videoCapture.read()
 
 model_path = os.path.join('.', 'runs', 'detect', 'train24', 'weights', 'last.pt')
 
@@ -43,9 +35,14 @@ while ret:
             cv2.putText(frame, results.names[int(class_id)].upper()+" "+str(int(midpoint_x))+" "+str(int(midpoint_y)), (int(x1), int(y1 - 10)),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
 
-    out.write(frame)
-    ret, frame = cap.read()
+    cv2.imshow("Live Basket Detection", frame)
 
-cap.release()
-out.release()
+    # Press q to quit the application
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+    # Read next frame
+    ret, frame = videoCapture.read()
+
+videoCapture.release()
 cv2.destroyAllWindows()
