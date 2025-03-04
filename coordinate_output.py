@@ -29,18 +29,18 @@ while ret:
         midpoint_y = (y1+y2)/2
 
         if score > threshold:
+            # Draw bounding box
             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (255, 0, 0), 4)
             
-            # Horizontal line
+            # Draw middlepoint crosshair
             cv2.line(frame,(int(x1),int(midpoint_y)),(int(x2),int(midpoint_y)),(255,0,0),2)
-            
-            # Vertical line
             cv2.line(frame,(int(midpoint_x),int(y1)),(int(midpoint_x),int(y2)),(255,0,0),2)
             
+            # Add text on top of bounding box
             cv2.putText(frame, results.names[int(class_id)].upper()+" "+str(int(midpoint_x))+" "+str(int(midpoint_y)), (int(x1), int(y1 - 10)),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
 
-    # Calculating FPS
+    # Calculate FPS
     curr_frame_time = time.time()
     fps = 1/(curr_frame_time - (prev_frame_time))
     prev_frame_time = curr_frame_time
@@ -48,6 +48,7 @@ while ret:
     # Display FPS
     cv2.putText(frame, str(int(fps)), (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3, cv2.LINE_AA)
 
+    # Update window
     cv2.imshow("Live Basket Detection", frame)
 
     # Press q to quit the application
