@@ -3,6 +3,8 @@ import os
 from ultralytics import YOLO
 import cv2
 
+import time
+
 videoCapture = cv2.VideoCapture(0)
 ret, frame = videoCapture.read()
 
@@ -12,6 +14,9 @@ model_path = os.path.join('.', 'runs', 'detect', 'train24', 'weights', 'last.pt'
 model = YOLO(model_path)  # load a custom model
 
 threshold = 0.5
+
+prev_frame_time = 0
+curr_frame_time = 0
 
 while ret:
 
@@ -34,6 +39,14 @@ while ret:
             
             cv2.putText(frame, results.names[int(class_id)].upper()+" "+str(int(midpoint_x))+" "+str(int(midpoint_y)), (int(x1), int(y1 - 10)),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
+
+    # Calculating FPS
+    curr_frame_time = time.time()
+    fps = 1/(curr_frame_time - (prev_frame_time))
+    prev_frame_time = curr_frame_time
+    
+    # Display FPS
+    cv2.putText(frame, str(int(fps)), (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3, cv2.LINE_AA)
 
     cv2.imshow("Live Basket Detection", frame)
 
