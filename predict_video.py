@@ -5,9 +5,9 @@ import cv2
 
 
 VIDEOS_DIR = os.path.join('.', 'videos')
-
-video_path = os.path.join(VIDEOS_DIR, 'basket2.mp4')
-video_path_out = '{}_10000epochs_out.mp4'.format(video_path)
+video_name = 'basket2'
+video_path = os.path.join(VIDEOS_DIR, video_name + '.mp4')
+video_path_out = os.path.join(VIDEOS_DIR, 'output', '{}_train2_out.mp4'.format(video_name))
 
 cap = cv2.VideoCapture(video_path)
 ret, frame = cap.read()
