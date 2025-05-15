@@ -6,15 +6,16 @@ import cv2
 
 VIDEOS_DIR = os.path.join('.', 'videos')
 video_name = 'basket2'
+train_name = 'yolo11-nano-hoop'
 video_path = os.path.join(VIDEOS_DIR, video_name + '.mp4')
-video_path_out = os.path.join(VIDEOS_DIR, 'output', '{}_train2_out.mp4'.format(video_name))
+video_path_out = os.path.join(VIDEOS_DIR, 'output', '{}_{}_out.mp4'.format(video_name, train_name))
 
 cap = cv2.VideoCapture(video_path)
 ret, frame = cap.read()
 H, W, _ = frame.shape
 out = cv2.VideoWriter(video_path_out, cv2.VideoWriter_fourcc(*'MP4V'), int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
 
-model_path = os.path.join('.', 'runs', 'detect', 'train24', 'weights', 'last.pt')
+model_path = os.path.join('.', 'runs', 'detect', train_name, 'weights', 'best.pt')
 
 total_inference_time = 0.0
 frames = 0
