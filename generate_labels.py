@@ -38,7 +38,7 @@ with open(dataset_dir/'all_images.txt', 'a') as f:
     for result in results:
         orig_img_path = Path(result.path)
 
-        label_filepath = dataset_dir/'labels'/(orig_img_path.stem + ".txt")
+        label_filepath = dataset_dir/'images'/orig_img_path.name
         if not len(result) <= 0:
             result[0].save_txt(txt_file=label_filepath)
             result[0].save(dataset_dir/"predictions"/(orig_img_path.stem + "_annotated" + orig_img_path.suffix))
