@@ -1,7 +1,7 @@
 from pathlib import Path
 from ultralytics import YOLO
 from ultralytics.data.split import autosplit
-import yaml
+from generate_yaml import generate_yaml
 
 # The initial diresctory structure should look like this:
 # 
@@ -50,16 +50,4 @@ autosplit(
     weights=(0.9, 0.1, 0)
 )
 
-# Create a data.yaml file for the dataset
-dataset_yaml = {
-    'path': str(dataset_dir),
-    'names': model.names,
-    'train': str(dataset_dir.relative_to(dataset_dir)/'autosplit_train.txt'),
-    'val': str(dataset_dir.relative_to(dataset_dir)/'autosplit_val.txt')
-}
-
-# If a test set exists, add it to the yaml file
-if (dataset_dir.relative_to(dataset_dir)/'autosplit_test.txt').exists():
-    dataset_yaml['test'] = str(dataset_dir.relative_to(dataset_dir)/'autosplit_test.txt')
-
-yaml.dump(dataset_yaml, open(dataset_dir/'data.yaml', 'w'))
+generate_yaml(dataset_dir, model, is_autosplit=True)
