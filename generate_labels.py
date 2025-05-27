@@ -38,10 +38,10 @@ with open(dataset_dir/'all_images.txt', 'a') as f:
         orig_img_path = Path(result.path)
 
         label_filepath = dataset_dir/'labels'/(orig_img_path.stem + ".txt")
-        result.save_txt(txt_file=label_filepath)
+        if not len(result) <= 0:
+            result[0].save_txt(txt_file=label_filepath)
+            result[0].save(dataset_dir/"predictions"/(orig_img_path.stem + "_annotated" + orig_img_path.suffix))
         f.write("./" + str(label_filepath.relative_to(dataset_dir)) + "\n")
-        result.save(dataset_dir/"predictions"/(orig_img_path.stem + "_annotated" + orig_img_path.suffix))
-        result.plot()
 
 # Autosplit the dataset into train, validation & test sets
 autosplit(
