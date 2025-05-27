@@ -17,7 +17,7 @@ model_weights = Path("./runs/detect/yolo11-nano-actual-hoop-1000-images/weights/
 
 # Load model and predict bounding boxes
 model = YOLO(model_weights)
-results = model.predict(source=dataset_dir/'images', conf=0.5)
+results = model.predict(source=dataset_dir/'images', stream=True, conf=0.5)
 
 
 # Delete any existing image paths
@@ -53,7 +53,7 @@ autosplit(
 # Create a data.yaml file for the dataset
 dataset_yaml = {
     'path': str(dataset_dir),
-    'names': results[0].names,
+    'names': model.names,
     'train': str(dataset_dir.relative_to(dataset_dir)/'autosplit_train.txt'),
     'val': str(dataset_dir.relative_to(dataset_dir)/'autosplit_val.txt')
 }
