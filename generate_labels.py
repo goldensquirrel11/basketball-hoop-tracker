@@ -29,6 +29,7 @@ if (dataset_dir/'all_images.txt').exists():
 if (dataset_dir/'predictions').exists():
     for file in (dataset_dir/'predictions').iterdir():
        file.unlink()
+    (dataset_dir/'predictions').rmdir()
 
 (dataset_dir/'predictions').mkdir()
 
