@@ -1,5 +1,11 @@
+# MLFlow
+include
+mlartifacts
+mlruns
+
 # Dataset
 datasets
+datasets-original
 
 # Trained models
 runs
