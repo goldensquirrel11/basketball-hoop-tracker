@@ -1,7 +1,7 @@
 from pathlib import Path
 from ultralytics import YOLO
 from ultralytics.data.split import autosplit
-import yaml
+from generate_yaml import generate_yaml
 
 # The initial diresctory structure should look like this:
 # 
@@ -17,7 +17,7 @@ model_weights = Path("./runs/detect/yolo11-nano-actual-hoop-1000-images/weights/
 
 # Load model and predict bounding boxes
 model = YOLO(model_weights)
-results = model.predict(source=dataset_dir/'images', conf=0.5)
+results = model.predict(source=dataset_dir/'images', stream=True, conf=0.5)
 
 
 # Delete any existing image paths
@@ -29,6 +29,7 @@ if (dataset_dir/'all_images.txt').exists():
 if (dataset_dir/'predictions').exists():
     for file in (dataset_dir/'predictions').iterdir():
        file.unlink()
+    (dataset_dir/'predictions').rmdir()
 
 (dataset_dir/'predictions').mkdir()
 
@@ -37,11 +38,11 @@ with open(dataset_dir/'all_images.txt', 'a') as f:
     for result in results:
         orig_img_path = Path(result.path)
 
-        label_filepath = dataset_dir/'labels'/(orig_img_path.stem + ".txt")
-        result.save_txt(txt_file=label_filepath)
+        label_filepath = dataset_dir/'images'/orig_img_path.name
+        if not len(result) <= 0:
+            result[0].save_txt(txt_file=label_filepath)
+            result[0].save(dataset_dir/"predictions"/(orig_img_path.stem + "_annotated" + orig_img_path.suffix))
         f.write("./" + str(label_filepath.relative_to(dataset_dir)) + "\n")
-        result.save(dataset_dir/"predictions"/(orig_img_path.stem + "_annotated" + orig_img_path.suffix))
-        result.plot()
 
 # Autosplit the dataset into train, validation & test sets
 autosplit(
@@ -49,16 +50,4 @@ autosplit(
     weights=(0.9, 0.1, 0)
 )
 
-# Create a data.yaml file for the dataset
-dataset_yaml = {
-    'path': str(dataset_dir),
-    'names': results[0].names,
-    'train': str(dataset_dir.relative_to(dataset_dir)/'autosplit_train.txt'),
-    'val': str(dataset_dir.relative_to(dataset_dir)/'autosplit_val.txt')
-}
-
-# If a test set exists, add it to the yaml file
-if (dataset_dir.relative_to(dataset_dir)/'autosplit_test.txt').exists():
-    dataset_yaml['test'] = str(dataset_dir.relative_to(dataset_dir)/'autosplit_test.txt')
-
-yaml.dump(dataset_yaml, open(dataset_dir/'data.yaml', 'w'))
+generate_yaml(dataset_dir, model, is_autosplit=True)
