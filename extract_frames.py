@@ -13,7 +13,7 @@ def extract_frames(video_path:Path, output_dir:Path):
     
     # Create output directory if it does not exist
     if not output_dir.exists():
-        output_dir.mkdir()
+        output_dir.mkdir(parents=True)
     
     video_feed = cv2.VideoCapture(video_path)
 
