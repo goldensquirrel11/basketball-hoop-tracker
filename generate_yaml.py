@@ -32,3 +32,16 @@ def generate_yaml(dataset_dir: Path, model: YOLO, is_autosplit: bool = False):
     yaml.dump(dataset_yaml, open(dataset_dir/'data.yaml', 'w'))
 
     print(f"Generated data.yaml for {dataset_dir.name}")
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Generate a data.yaml file for an existing YOLO dataset.")
+    parser.add_argument('dataset_dir', type=Path, help="Path to the dataset directory.")
+    parser.add_argument('weights', type=str, required=True, help="Path to the YOLO model weights to extract class names from.")
+    parser.add_argument('--autosplit', action='store_true', help="Indicates if the dataset has been autosplit.")
+
+    args = parser.parse_args()
+
+    model = YOLO(args.weights)
+    generate_yaml(args.dataset_dir, model, args.autosplit)
