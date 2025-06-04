@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Generate a data.yaml file for an existing YOLO dataset.")
     parser.add_argument('dataset_dir', type=Path, help="Path to the dataset directory.")
-    parser.add_argument('weights', type=str, required=True, help="Path to the YOLO model weights to extract class names from.")
+    parser.add_argument('weights', type=str, help="Path to the YOLO model weights to extract class names from.")
     parser.add_argument('--autosplit', action='store_true', help="Indicates if the dataset has been autosplit.")
 
     args = parser.parse_args()
