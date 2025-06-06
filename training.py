@@ -21,9 +21,7 @@ if __name__ == '__main__':
             for config in train_queue:
                 print(f'Working on {config}')
 
-                model = YOLO("yolo11n.yaml")    # Load a COCO-pretrained YOLO11n model
-
-                results = model.train(cfg=config)
+                YOLO("yolo11n.yaml").train(cfg=config)
 
                 shutil.move(config, train_queue_dir / 'done')
         else:
