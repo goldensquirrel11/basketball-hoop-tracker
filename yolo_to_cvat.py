@@ -61,7 +61,7 @@ def yolo_to_cvat(dataset_dir: Path, output_dir: Path):
                     img = Path(line)    # Remove './' prefix
                     t.write(f'data/images/train/{img.name}')
 
-                dataset_zip.write(train_txt, 'train.txt')
+            dataset_zip.write(train_txt, 'train.txt')
             train_txt.unlink()
         
         # Add data.yaml
