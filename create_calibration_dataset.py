@@ -29,7 +29,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Extract a random subset of images from a dataset to be used as a quantization calibration dataset")
     parser.add_argument('dataset_dir', type=Path, help='Dataset directory.')
     parser.add_argument('output_dir', type=Path, help='Directory to save the calibration dataeset images.')
-    parser.add_argument('num_images', type=Path, help='Number of images to sample from the original dataset')
+    parser.add_argument('num_images', type=int, help='Number of images to sample from the original dataset')
     args = parser.parse_args()
 
     create_calibration_dataset(args.dataset_dir, args.output_dir, args.num_images)

@@ -4,7 +4,7 @@ import argparse
 from ultralytics.data.split import autosplit
 from generate_yaml import generate_yaml
 
-# The initial diresctory structure should look like this:
+# The initial directory structure should look like this:
 # 
 # dataset_dir
 # |--- images
