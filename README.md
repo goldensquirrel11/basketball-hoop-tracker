@@ -60,10 +60,10 @@ A collection of scripts and utilities for dataset preparation, conversion, auto-
 
 Make sure you've installed [`Pytorch`](https://pytorch.org/get-started/) according to your system requirements.
 
-**Install ultralytics:**
+**Install Required Python Packages:**
 
 ```sh
-pip install ultralytics
+pip install -r requirements.txt
 ```
 
 ## Example Commands
