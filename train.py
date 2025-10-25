@@ -1,6 +1,8 @@
 from ultralytics import YOLO
+import os
 
 if __name__ == '__main__':
+    os.environ["MLFLOW_TRACKING_URI"] = 'http://192.168.193.220:5000'
 
     # model = YOLO("runs/detect/train3/weights/last.pt")  # For resuming a previous training session
                                                         # OR using a previous pretrained model weights
