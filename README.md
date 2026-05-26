@@ -2,6 +2,16 @@
 
 A collection of scripts and utilities for dataset preparation, conversion, auto-annotation & training of YOLO object detection models.
 
+## Pipeline Overview
+
+The pipeline involves extracting frames from raw videos, generating YOLO labels, splitting the dataset, and training or predicting hoop detections.
+
+![Data Labeling Pipeline](assets/data-labeling-pipeline.png)
+
+This repository also includes hoop detection inference visualization from a sample video run.
+
+![Hoop Detection Demo](assets/hoop-detection-clip.GIF)
+
 ## Utils/Scripts
 
 **Dataset preparation:**
